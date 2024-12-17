@@ -21,7 +21,7 @@ export default function RootLayout({
       signUpFallbackRedirectUrl={`/events`}
     >
       <html lang="en" suppressHydrationWarning>
-        <body className={`antialiased`}>
+        <body className={`antialiased transition-colors duration-300`}>
           <ThemeProvider
             attribute="class"
             defaultTheme="light"
