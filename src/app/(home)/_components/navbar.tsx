@@ -33,7 +33,7 @@ const Navbar = () => {
   }
 
   return (
-    <div className="border-gray-150 h-14 px-4 py-3 flex border-b justify-between items-center">
+    <div className="border-gray-150 dark:border-gray-800 h-14 px-4 py-3 flex border-b justify-between items-center">
       <div className={`flex items-center justify-center gap-x-1`}>
         <Image
           src={`/logo.svg`}
