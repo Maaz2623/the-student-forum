@@ -23,9 +23,7 @@ export default function RootLayout({
       <html
         lang="en"
         suppressHydrationWarning
-        style={{
-          backgroundImage: "url('/bg-1.svg')",
-        }}
+        
       >
         <body className={`antialiased`}>
           <ThemeProvider
