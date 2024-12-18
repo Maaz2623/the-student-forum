@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Teko } from "next/font/google";
 import { SignedIn, SignedOut, SignIn, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
@@ -22,6 +22,15 @@ const teko = Teko({
 
 const Navbar = () => {
   const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <div className="border-gray-150 h-14 px-4 py-3 flex justify-between items-center">
@@ -38,21 +47,19 @@ const Navbar = () => {
         </p>
       </div>
 
-      <div className="flex gap-x-2">
-        <div>
-          {theme === "light" && (
-            <MoonIcon
-              className="hover:bg-white/5 cursor-pointer rounded-sm size-7 p-1"
-              onClick={() => setTheme("dark")}
-            />
-          )}
-          {theme === "dark" && (
-            <SunIcon
-              className="hover:bg-white/5 cursor-pointer size-7 rounded-sm p-1"
-              onClick={() => setTheme("light")}
-            />
-          )}
-        </div>
+      <div className="flex gap-x-2 items-center">
+        {theme === "light" && (
+          <MoonIcon
+            className="dark:hover:bg-white/5 hover:bg-black/5 cursor-pointer rounded-sm size-8 p-1"
+            onClick={() => setTheme("dark")}
+          />
+        )}
+        {theme === "dark" && (
+          <SunIcon
+            className="dark:hover:bg-white/5 hover:bg-black/5 cursor-pointer size-8 rounded-sm p-1"
+            onClick={() => setTheme("light")}
+          />
+        )}
         <SignedIn>
           <UserButton />
         </SignedIn>
