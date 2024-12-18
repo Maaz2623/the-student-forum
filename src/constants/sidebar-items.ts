@@ -4,6 +4,7 @@ type SidebarItemsProps = {
   label: string;
   link: string;
   icon?: LucideIcon;
+  animation?: string;
 };
 
 export const sidebarItems: SidebarItemsProps[] = [
@@ -21,5 +22,6 @@ export const sidebarItems: SidebarItemsProps[] = [
     label: "Settings",
     link: "/settings",
     icon: Settings,
+    animation: "animate-spin",
   },
 ];
