@@ -4,6 +4,7 @@ import * as React from "react";
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -18,6 +19,7 @@ import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import OrganisationDropdown from "./organisation-dropdown";
 import { sidebarItems } from "@/constants/sidebar-items";
+import SidebarUserButton from "./sidebar-user-button";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
@@ -62,6 +64,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <SidebarUserButton />
+      </SidebarFooter>
       <SidebarRail className="border-1 border-green-500" />
     </Sidebar>
   );
