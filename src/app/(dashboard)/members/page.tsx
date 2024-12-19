@@ -19,8 +19,6 @@ const MembersPage = async () => {
     id: user.id,
   }));
 
-  console.log(userList);
-
   return (
     <div className="h-full px-10">
       <header className=" mt-4 text-3xl font-semibold">Our Community</header>

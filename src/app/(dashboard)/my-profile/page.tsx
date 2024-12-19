@@ -16,7 +16,6 @@ import { Button } from "@/components/ui/button";
 import { Settings2Icon } from "lucide-react";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { Separator } from "@/components/ui/separator";
-import AchievementsContainer from "./_components/achievements-container";
 
 const MyProfilePage = () => {
   const router = useRouter();
@@ -85,11 +84,6 @@ const MyProfilePage = () => {
       </div>
 
       <Separator className="my-8" />
-      {/* Achievements Section */}
-      <h1 className="px-4 md:px-10 text-xl md:text-2xl font-semibold">
-        Achievements
-      </h1>
-      <AchievementsContainer />
     </div>
   );
 };

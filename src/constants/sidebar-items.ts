@@ -22,12 +22,6 @@ export const sidebarGeneralItems: SidebarItemsProps[] = [
     tag: "events",
   },
   {
-    label: "My Tickets",
-    link: "/my-tickets",
-    icon: TicketIcon,
-    tag: "tickets",
-  },
-  {
     label: "Members",
     link: "/members",
     icon: Users,
@@ -41,5 +35,11 @@ export const sidebarProfileItems: SidebarItemsProps[] = [
     link: "/my-profile",
     icon: UserIcon,
     tag: "profile",
+  },
+  {
+    label: "My Tickets",
+    link: "/my-tickets",
+    icon: TicketIcon,
+    tag: "tickets",
   },
 ];

@@ -48,7 +48,10 @@ const MemberRow = ({ id, profileImage, fullName, email }: MemberRowProps) => {
           />
         </DialogContent>
       </Dialog>
-      <div className="" onClick={() => router.push(`/members/${id}`)}>
+      <div
+        className="hover:underline"
+        onClick={() => router.push(`/members/${id}`)}
+      >
         <p className="text-base font-medium truncate w-[250px]">{fullName}</p>
         <p className="text-gray-700">{email}</p>
       </div>

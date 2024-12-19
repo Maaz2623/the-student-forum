@@ -49,16 +49,14 @@ const SidebarUserButton = () => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="flex items-center rounded-md gap-x-2 px-2 py-1 border w-full justify-start">
-        <div className="size-8 rounded-full border overflow-hidden">
-          <Image
-            src={profileImage}
-            alt="Profile Image"
-            className=""
-            width={100}
-            height={100}
-          />
-        </div>
+      <DropdownMenuTrigger className="flex items-center rounded-md gap-x-2 px-2 py-1 bg-black/5 hover:bg-black/10 transition duration-200 w-full justify-start">
+        <Image
+          src={profileImage}
+          alt="Profile Image"
+          className="size-10 rounded-full object-cover object-center"
+          width={50}
+          height={50}
+        />
         <div className="w-full text-start">
           <p className="text-md font-medium">Mohammed Maaz</p>
           <p className="text-gray-600 text-sm font-normal truncate">
@@ -73,7 +71,7 @@ const SidebarUserButton = () => {
 
         <DropdownMenuItem
           onClick={() => signOut({ redirectUrl: "/" })}
-          className="text-rose-600 flex justify-between items-center hover:text-rose-600"
+          className="text-rose-700 flex justify-between items-center hover:text-rose-600"
         >
           <p>Signout</p>
           <LogOutIcon />
