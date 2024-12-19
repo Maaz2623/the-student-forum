@@ -61,7 +61,7 @@ const SidebarUserButton = () => {
         </div>
         <div className="w-full text-start">
           <p className="text-md font-medium">Mohammed Maaz</p>
-          <p className="text-gray-600 text-sm font-light truncate">
+          <p className="text-gray-600 text-sm font-normal truncate">
             {truncatedEmail}
           </p>
         </div>
