@@ -50,7 +50,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                         <div
                           className={cn(
                             "h-full w-1 bg-green-600 scale-y-0 rounded-full transition-transform duration-300",
-                            pathname === item.link && "scale-y-100"
+                            pathname.includes(item.link) && "scale-y-100"
                           )}
                         />
                         {Icon && <Icon />}

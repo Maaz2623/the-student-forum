@@ -1,4 +1,4 @@
-import { Calendar, LucideIcon, Settings, User } from "lucide-react";
+import { Calendar, LucideIcon, TicketIcon, UserIcon } from "lucide-react";
 
 type SidebarItemsProps = {
   label: string;
@@ -14,14 +14,13 @@ export const sidebarItems: SidebarItemsProps[] = [
     icon: Calendar,
   },
   {
-    label: "Profile",
-    link: "/profile",
-    icon: User,
+    label: "My Tickets",
+    link: "/my-tickets",
+    icon: TicketIcon,
   },
   {
-    label: "Settings",
-    link: "/settings",
-    icon: Settings,
-    animation: "animate-spin",
+    label: "Manage Profile",
+    link: "/my-profile",
+    icon: UserIcon,
   },
 ];
