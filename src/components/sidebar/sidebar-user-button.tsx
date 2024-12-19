@@ -49,7 +49,7 @@ const SidebarUserButton = () => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="flex items-center rounded-md gap-x-2 px-2 py-1 bg-black/5 hover:bg-black/10 transition duration-200 w-full justify-start">
+      <DropdownMenuTrigger className="flex border border-neutral-200 items-center rounded-md gap-x-2 px-2 py-1 bg-black/5 hover:bg-black/10 transition duration-200 w-full justify-start">
         <Image
           src={profileImage}
           alt="Profile Image"

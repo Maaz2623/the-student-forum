@@ -20,7 +20,7 @@ const MembersPage = async () => {
   }));
 
   return (
-    <div className="h-full px-10">
+    <div className="h-full">
       <header className=" mt-4 text-3xl font-semibold">Our Community</header>
       <Separator className="my-6" />
       <div className="">
