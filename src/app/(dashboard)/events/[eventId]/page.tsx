@@ -33,7 +33,15 @@ const EventIdPage = () => {
   const handlePayment = async () => {
     setIsProcessing(true);
     try {
-      const response = await fetch("/api/create-order", { method: "POST" });
+      const response = await fetch("/api/create-order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json", // Make sure the server knows you're sending JSON
+        },
+        body: JSON.stringify({
+          amount: AMOUNT, // Pass the amount as a JSON string
+        }),
+      });
       const data = await response.json();
 
       const options = {
@@ -123,14 +131,13 @@ const EventIdPage = () => {
           {/* Ticket Price and Brochure */}
           <div className="flex justify-between md:justify-start mt-auto items-center gap-x-4">
             <Button
+              onClick={handlePayment}
               disabled={isProcessing}
               className="relative flex items-center gap-x-2 bg-green-600"
             >
               <TicketIcon className="w-5 h-5 text-white" />
               <Separator orientation="vertical" className="h-5" />
-              <span className="text-white font-medium" onClick={handlePayment}>
-                ₹250
-              </span>
+              <span className="text-white font-medium">₹250</span>
             </Button>
             <Button
               disabled={isProcessing}
