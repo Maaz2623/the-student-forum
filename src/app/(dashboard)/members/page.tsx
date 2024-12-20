@@ -1,14 +1,11 @@
-import { createClerkClient } from "@clerk/nextjs/server";
 import React from "react";
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
 import { Separator } from "@/components/ui/separator";
+import { clerkClient } from "@clerk/nextjs/server";
 
 const MembersPage = async () => {
-  const clerkClient = createClerkClient({
-    secretKey: process.env.CLERK_SECRET_KEY!,
-  });
-  const { data } = await clerkClient.users.getUserList();
+  const { data } = await (await clerkClient()).users.getUserList();
 
   const formattedUserList = data.map((user) => ({
     profileImage: user.imageUrl || "",
