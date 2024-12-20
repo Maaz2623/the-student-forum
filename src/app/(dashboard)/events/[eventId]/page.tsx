@@ -56,11 +56,6 @@ const EventIdPage = () => {
           console.log("Payment Successfull", response);
           router.push(`/payment/success`);
         },
-        prefill: {
-          name: "Mohammed Maaz",
-          email: "mohammedmaaz2623@gmail.com",
-          contact: "8296472301",
-        },
       };
 
       const rzp1 = new window.Razorpay(options);
