@@ -20,12 +20,10 @@ export default function RootLayout({
       signInFallbackRedirectUrl={`/events`}
       signUpFallbackRedirectUrl={`/events`}
     >
-      <html
-        lang="en"
-        suppressHydrationWarning
-        
-      >
-        <body className={`antialiased`}>
+      <html lang="en" suppressHydrationWarning>
+        <body
+          className={`antialiased `}
+        >
           <ThemeProvider
             attribute="class"
             defaultTheme="light"

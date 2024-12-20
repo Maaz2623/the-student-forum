@@ -23,7 +23,7 @@ import { Separator } from "@/components/ui/separator";
 
 const EventIdPage = () => {
   return (
-    <div className="bg-gray-50 rounded-lg min-h-screen">
+    <div className="rounded-lg min-h-screen">
       <div className="flex flex-col md:flex-row gap-y-6 gap-x-8 p-0 md:p-3">
         {/* Event Image */}
         <div className="aspect-video w-full md:w-[400px] rounded-lg bg-gradient-to-r from-gray-300 to-gray-400 shadow-md" />
@@ -81,10 +81,7 @@ const EventIdPage = () => {
             <Button className="relative flex items-center gap-x-2 bg-green-600">
               <TicketIcon className="w-5 h-5 text-white" />
               <Separator orientation="vertical" className="h-5" />
-              <span className="text-white font-medium">₹150000</span>
-              <span className="absolute -top-2 -right-2 bg-green-100 text-green-600 text-xs px-1 py-0.5 rounded-full border border-green-500">
-                -32
-              </span>
+              <span className="text-white font-medium">₹250</span>
             </Button>
             <Button variant="outline" className="flex items-center gap-x-2">
               <DownloadIcon className="w-5 h-5 text-gray-600" />
