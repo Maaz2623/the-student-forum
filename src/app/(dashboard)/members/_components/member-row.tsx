@@ -23,7 +23,7 @@ const MemberRow = ({ id, profileImage, fullName, email }: MemberRowProps) => {
   return (
     <div className="flex items-center justify-start gap-x-2">
       <Dialog>
-        <DialogTrigger className="">
+        <DialogTrigger className="shrink-0">
           <Image
             src={profileImage}
             alt="Profile Image"

@@ -21,7 +21,7 @@ const MembersPage = async () => {
 
   return (
     <div className="h-full">
-      <header className=" mt-4 text-3xl font-semibold">Our Community</header>
+      <header className=" mt-4 text-2xl font-medium">Our Community</header>
       <Separator className="my-6" />
       <div className="">
         <DataTable columns={columns} data={formattedUserList} />
