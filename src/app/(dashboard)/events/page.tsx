@@ -4,7 +4,7 @@ import EventCard from "./_components/event-card";
 
 const EventsPage = () => {
   return (
-    <div className="p-6">
+    <div className="">
       <header>
         <h1 className="text-3xl font-bold">Events</h1>
         <p className="text-sm text-neutral-600 mt-2">
@@ -12,7 +12,7 @@ const EventsPage = () => {
         </p>
       </header>
       <Separator className="my-6" />
-      <div className="border grid grid-flow-row grid-cols-3 gap-x-7 gap-y-10">
+      <div className="flex md:flex-row flex-col justify-center md:justify-start items-center flex-wrap gap-x-7 gap-y-10 ">
         <EventCard
           eventName="Pretense"
           eventCardDescription="Enjoy a day full of excitement, learning, and fun activities!"
