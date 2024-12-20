@@ -58,7 +58,7 @@ const SidebarUserButton = () => {
           height={50}
         />
         <div className="w-full text-start">
-          <p className="text-md font-medium">Mohammed Maaz</p>
+          <p className="text-md font-medium">{user?.fullName}</p>
           <p className="text-gray-600 text-sm font-normal truncate">
             {truncatedEmail}
           </p>

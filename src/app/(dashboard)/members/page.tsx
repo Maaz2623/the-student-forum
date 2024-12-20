@@ -8,9 +8,9 @@ const MembersPage = async () => {
   const clerkClient = createClerkClient({
     secretKey: process.env.CLERK_SECRET_KEY!,
   });
-  const userList = await clerkClient.users.getUserList();
+  const { data } = await clerkClient.users.getUserList();
 
-  const formattedUserList = userList.data.map((user) => ({
+  const formattedUserList = data.map((user) => ({
     profileImage: user.imageUrl || "",
     user: {
       email: user.primaryEmailAddress?.emailAddress || "",
@@ -18,6 +18,8 @@ const MembersPage = async () => {
     },
     id: user.id,
   }));
+
+  console.log(data);
 
   return (
     <div className="h-full">
