@@ -3,6 +3,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ConvexClientProvider } from "@/components/convex-client-provider";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Suspense } from "react";
+import FullscreenLoader from "@/components/fullscreen-loader";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -21,9 +23,7 @@ export default function RootLayout({
       signUpFallbackRedirectUrl={`/events`}
     >
       <html lang="en" suppressHydrationWarning>
-        <body
-          className={`antialiased `}
-        >
+        <body className={`antialiased `}>
           <ThemeProvider
             attribute="class"
             defaultTheme="light"

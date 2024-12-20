@@ -9,7 +9,7 @@ import {
   UsersIcon,
 } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -20,10 +20,54 @@ import {
 } from "@/components/transparent-dialog";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { useRouter } from "next/navigation";
+import Script from "next/script";
 
 const EventIdPage = () => {
+  const AMOUNT = 250;
+
+  const router = useRouter();
+
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const handlePayment = async () => {
+    setIsProcessing(true);
+    try {
+      const response = await fetch("/api/create-order", { method: "POST" });
+      const data = await response.json();
+
+      const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID!,
+        amount: AMOUNT * 100,
+        currency: "INR",
+        name: "The Student Forum",
+        description: "Test Transaction",
+        order_id: data.orderId,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        handler: function (response: any) {
+          console.log("Payment Successfull", response);
+          router.push(`/payment/success`);
+        },
+        prefill: {
+          name: "Mohammed Maaz",
+          email: "mohammedmaaz2623@gmail.com",
+          contact: "8296472301",
+        },
+      };
+
+      const rzp1 = new window.Razorpay(options);
+      rzp1.open();
+    } catch (error) {
+      console.log("Payment Failed", error);
+      router.push(`/payment/error`);
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
   return (
     <div className="rounded-lg min-h-screen">
+      <Script src="https://checkout.razorpay.com/v1/checkout.js" />
       <div className="flex flex-col md:flex-row gap-y-6 gap-x-8 p-0 md:p-3">
         {/* Event Image */}
         <div className="aspect-video w-full md:w-[400px] rounded-lg bg-gradient-to-r from-gray-300 to-gray-400 shadow-md" />
@@ -78,12 +122,21 @@ const EventIdPage = () => {
 
           {/* Ticket Price and Brochure */}
           <div className="flex justify-between md:justify-start mt-auto items-center gap-x-4">
-            <Button className="relative flex items-center gap-x-2 bg-green-600">
+            <Button
+              disabled={isProcessing}
+              className="relative flex items-center gap-x-2 bg-green-600"
+            >
               <TicketIcon className="w-5 h-5 text-white" />
               <Separator orientation="vertical" className="h-5" />
-              <span className="text-white font-medium">₹250</span>
+              <span className="text-white font-medium" onClick={handlePayment}>
+                ₹250
+              </span>
             </Button>
-            <Button variant="outline" className="flex items-center gap-x-2">
+            <Button
+              disabled={isProcessing}
+              variant="outline"
+              className="flex items-center gap-x-2"
+            >
               <DownloadIcon className="w-5 h-5 text-gray-600" />
               <span>Brochure</span>
             </Button>
