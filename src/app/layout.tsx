@@ -3,6 +3,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ConvexClientProvider } from "@/components/convex-client-provider";
 import { ClerkProvider } from "@clerk/nextjs";
+import { JotaiProvider } from "@/components/jotai-provider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -28,7 +29,9 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <ConvexClientProvider>{children}</ConvexClientProvider>
+            <ConvexClientProvider>
+              <JotaiProvider>{children}</JotaiProvider>
+            </ConvexClientProvider>
           </ThemeProvider>
         </body>
       </html>

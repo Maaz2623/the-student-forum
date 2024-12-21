@@ -16,16 +16,20 @@ import {
 } from "@/components/ui/sidebar";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import OrganisationDropdown from "./organisation-dropdown";
 import {
   sidebarGeneralItems,
   sidebarProfileItems,
 } from "@/constants/sidebar-items";
-import SidebarUserButton from "./sidebar-user-button";
+import { Button } from "../ui/button";
+import { LogOutIcon } from "lucide-react";
+import { useClerk } from "@clerk/nextjs";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
+  const router = useRouter();
+  const { signOut } = useClerk();
 
   return (
     <Sidebar {...props} className="">
@@ -100,8 +104,20 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>
-        <SidebarUserButton />
+      <SidebarFooter className="">
+        <Button
+          onClick={() => {
+            router.push(`/`);
+            signOut({
+              redirectUrl: "/",
+            });
+          }}
+          variant={`secondary`}
+          className="text-rose-600 flex justify-between items-center hover:text-rose-600"
+        >
+          <p>Sign out</p>
+          <LogOutIcon />
+        </Button>
       </SidebarFooter>
       <SidebarRail className="border-1 border-green-500" />
     </Sidebar>

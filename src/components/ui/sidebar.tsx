@@ -263,7 +263,7 @@ const SidebarTrigger = React.forwardRef<
   React.ElementRef<typeof Button>,
   React.ComponentProps<typeof Button>
 >(({ className, onClick, ...props }, ref) => {
-  const { toggleSidebar, open } = useSidebar();
+  const { toggleSidebar, open, openMobile } = useSidebar();
 
   return (
     <Button
@@ -277,8 +277,8 @@ const SidebarTrigger = React.forwardRef<
       }}
       {...props}
     >
-      {open ? <PanelLeftClose /> : <PanelLeftOpen />}
-      <p>{open ? "Close" : "Open"}</p>
+      {open && openMobile ? <PanelLeftClose /> : <PanelLeftOpen />}
+      <p>{open && openMobile ? "Close" : "Open"}</p>
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   );
@@ -554,10 +554,15 @@ const SidebarMenuButton = React.forwardRef<
     ref
   ) => {
     const Comp = asChild ? Slot : "button";
-    const { isMobile, state } = useSidebar();
+    const { isMobile, state, setOpenMobile } = useSidebar();
 
     const button = (
       <Comp
+        onClick={() => {
+          if (isMobile) {
+            setOpenMobile(false);
+          }
+        }}
         ref={ref}
         data-sidebar="menu-button"
         data-size={size}
