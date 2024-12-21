@@ -16,7 +16,9 @@ export default defineSchema({
   likes: defineTable({
     userId: v.id("users"),
     eventId: v.id("events"),
-  }).index("by_user_and_event", ["userId", "eventId"]),
+  })
+    .index("by_user_and_event", ["userId", "eventId"])
+    .index("by_event_id", ["eventId"]),
   tickets: defineTable({
     eventId: v.id("events"),
     userId: v.id("users"), // Associate tickets with users

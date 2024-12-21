@@ -35,7 +35,6 @@ const EventsPage = async () => {
                 eventCardDescription={event.eventCardDescription}
                 eventDate={event.eventDate}
                 eventVenue={event.eventVenue}
-                likesCount={event.likesCount}
               />
             );
           })}

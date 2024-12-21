@@ -2,17 +2,20 @@
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useMutation, useQuery } from "convex/react";
 import { HeartIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { api } from "../../../../../convex/_generated/api";
+import { useUser } from "@clerk/nextjs";
+import { Id } from "../../../../../convex/_generated/dataModel";
 
 interface EventCardProps {
-  eventId: string;
+  eventId: Id<"events">;
   eventName: string;
   eventDate: number;
   eventVenue: string;
   eventCardDescription: string;
-  likesCount: number;
 }
 
 const EventCard = ({
@@ -21,15 +24,27 @@ const EventCard = ({
   eventDate,
   eventVenue,
   eventCardDescription,
-  likesCount,
 }: EventCardProps) => {
   const router = useRouter();
   const [liked, setLiked] = useState(false);
-  const [likes, setLikes] = useState(likesCount);
 
-  const handleLike = () => {
-    setLikes(likesCount + 1);
+  const { user } = useUser();
+
+  const like = useMutation(api.likes.incrementLike);
+
+  const getLikesCount = useQuery(api.likes.getLikeCount, {
+    eventId: eventId,
+  });
+
+  const [likes, setLikeCount] = useState(getLikesCount || 0);
+
+  const handleLike = async () => {
     setLiked(true);
+    setLikeCount((likes as number) + 1);
+    await like({
+      userId: user?.id as string,
+      eventId: eventId,
+    });
   };
 
   return (
