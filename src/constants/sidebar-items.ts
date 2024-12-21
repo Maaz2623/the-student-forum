@@ -1,5 +1,6 @@
 import {
   Calendar,
+  CalendarCogIcon,
   LucideIcon,
   TicketIcon,
   UserIcon,
@@ -41,5 +42,14 @@ export const sidebarProfileItems: SidebarItemsProps[] = [
     link: "/my-tickets",
     icon: TicketIcon,
     tag: "tickets",
+  },
+];
+
+export const sidebarBackendItems: SidebarItemsProps[] = [
+  {
+    label: "Event Management",
+    link: "/admin/event-management",
+    icon: CalendarCogIcon,
+    tag: "event-management",
   },
 ];

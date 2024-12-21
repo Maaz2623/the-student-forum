@@ -23,6 +23,13 @@ import { Separator } from "@/components/ui/separator";
 import { useRouter } from "next/navigation";
 import Script from "next/script";
 
+declare global {
+  interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    Razorpay: any;
+  }
+}
+
 const EventIdPage = () => {
   const AMOUNT = 250;
 
@@ -54,7 +61,6 @@ const EventIdPage = () => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         handler: function (response: any) {
           console.log("Payment Successfull", response);
-          router.push(`/payment/success`);
         },
       };
 

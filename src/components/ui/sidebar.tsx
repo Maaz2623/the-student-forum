@@ -277,8 +277,8 @@ const SidebarTrigger = React.forwardRef<
       }}
       {...props}
     >
-      {open && openMobile ? <PanelLeftClose /> : <PanelLeftOpen />}
-      <p>{open && openMobile ? "Close" : "Open"}</p>
+      {open || openMobile ? <PanelLeftClose /> : <PanelLeftOpen />}
+      <p>{open || openMobile ? "Close" : "Open"}</p>
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   );

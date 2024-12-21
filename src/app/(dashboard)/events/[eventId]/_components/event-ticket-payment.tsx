@@ -4,12 +4,7 @@ import Script from "next/script";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
-declare global {
-  interface Window {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    Razorpay: any;
-  }
-}
+
 
 const EventTicketPayment = () => {
   const AMOUNT = 250;

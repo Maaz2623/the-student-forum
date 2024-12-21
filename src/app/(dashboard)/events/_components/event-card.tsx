@@ -7,14 +7,16 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface EventCardProps {
+  eventId: string;
   eventName: string;
-  eventDate: string;
+  eventDate: number;
   eventVenue: string;
   eventCardDescription: string;
   likesCount: number;
 }
 
 const EventCard = ({
+  eventId,
   eventName,
   eventDate,
   eventVenue,
@@ -50,7 +52,7 @@ const EventCard = ({
           </div>
           <div className="lg:mt-4 md:mt-6 mt-8 flex gap-x-2">
             <Button
-              onClick={() => router.push(`/events/123`)}
+              onClick={() => router.push(`/events/${eventId}`)}
               size="sm"
               className="h-9 bg-gradient-to-br from-green-700 hover:text-white hover:bg-green-600 to-green-500 text-white"
               variant={`outline`}

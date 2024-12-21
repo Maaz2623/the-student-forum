@@ -1,6 +1,6 @@
 "use client";
-import * as React from "react";
 
+import * as React from "react";
 import {
   Sidebar,
   SidebarContent,
@@ -19,17 +19,80 @@ import { cn } from "@/lib/utils";
 import { usePathname, useRouter } from "next/navigation";
 import OrganisationDropdown from "./organisation-dropdown";
 import {
+  sidebarBackendItems,
   sidebarGeneralItems,
   sidebarProfileItems,
 } from "@/constants/sidebar-items";
+import { useEffect } from "react";
 import { Button } from "../ui/button";
 import { LogOutIcon } from "lucide-react";
 import { useClerk } from "@clerk/nextjs";
+import { useMutation, useQuery } from "convex/react";
+import { api } from "../../../convex/_generated/api";
+import { RoleType } from "@/constants";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
   const router = useRouter();
-  const { signOut } = useClerk();
+  const { signOut, user, loaded } = useClerk();
+
+  const createUser = useMutation(api.users.createUser);
+
+  const currentUser = useQuery(api.users.getCurrentUser, {
+    userId: user?.id as string,
+  });
+
+  useEffect(() => {
+    if (loaded && user && !currentUser) {
+      createUser({
+        userId: user.id as string,
+      });
+    }
+  }, [createUser, user?.id, loaded, user, currentUser]);
+
+  const generalItems = React.useMemo(() => sidebarGeneralItems, []);
+  const profileItems = React.useMemo(() => sidebarProfileItems, []);
+  const backendItems = React.useMemo(() => sidebarBackendItems, []);
+
+  // if (!currentUser) return;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const renderSidebarGroup = (label: string, items: any[]) => (
+    <SidebarGroup>
+      <SidebarGroupLabel>{label}</SidebarGroupLabel>
+      <SidebarGroupContent>
+        <SidebarMenu>
+          {items.map((item) => {
+            const Icon = item.icon;
+            const isActive = pathname === item.link;
+
+            return (
+              <SidebarMenuItem key={item.link}>
+                <SidebarMenuButton
+                  asChild
+                  aria-label={`Navigate to ${item.label}`}
+                  className={cn(
+                    "h-10 text-base",
+                    isActive && "bg-black/5 font-medium"
+                  )}
+                >
+                  <Link href={item.link}>
+                    <div
+                      className={cn(
+                        "h-full w-1 bg-green-600 scale-y-0 rounded-full transition-transform duration-300",
+                        isActive && "scale-y-100"
+                      )}
+                    />
+                    {Icon && <Icon />}
+                    {item.label}
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            );
+          })}
+        </SidebarMenu>
+      </SidebarGroupContent>
+    </SidebarGroup>
+  );
 
   return (
     <Sidebar {...props} className="">
@@ -37,82 +100,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <OrganisationDropdown />
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>General</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {sidebarGeneralItems.map((item) => {
-                const Icon = item.icon;
-
-                return (
-                  <SidebarMenuItem key={item.link}>
-                    <SidebarMenuButton
-                      asChild
-                      className={cn(
-                        "h-10 text-base ",
-                        pathname === item.link && "bg-black/5 font-medium"
-                      )}
-                    >
-                      <Link href={item.link}>
-                        <div
-                          className={cn(
-                            "h-full w-1 bg-green-600 scale-y-0 rounded-full transition-transform duration-300",
-                            pathname.includes(item.tag) && "scale-y-100"
-                          )}
-                        />
-                        {Icon && <Icon />}
-                        {item.label}
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                );
-              })}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-        <SidebarGroup>
-          <SidebarGroupLabel>Profile</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {sidebarProfileItems.map((item) => {
-                const Icon = item.icon;
-
-                return (
-                  <SidebarMenuItem key={item.link}>
-                    <SidebarMenuButton
-                      asChild
-                      className={cn(
-                        "h-10 text-base ",
-                        pathname === item.link && "bg-black/5 font-medium"
-                      )}
-                    >
-                      <Link href={item.link}>
-                        <div
-                          className={cn(
-                            "h-full w-1 bg-green-600 scale-y-0 rounded-full transition-transform duration-300",
-                            pathname.includes(item.tag) && "scale-y-100"
-                          )}
-                        />
-                        {Icon && <Icon />}
-                        {item.label}
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                );
-              })}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {renderSidebarGroup("General", generalItems)}
+        {renderSidebarGroup("Profile", profileItems)}
+        {currentUser?.userRole === RoleType.ADMIN &&
+          renderSidebarGroup("Content Management", backendItems)}
       </SidebarContent>
       <SidebarFooter className="">
         <Button
           onClick={() => {
             router.push(`/`);
-            signOut({
-              redirectUrl: "/",
-            });
+            signOut({ redirectUrl: "/" });
           }}
-          variant={`secondary`}
+          variant="secondary"
           className="text-rose-600 flex justify-between items-center hover:text-rose-600"
         >
           <p>Sign out</p>
