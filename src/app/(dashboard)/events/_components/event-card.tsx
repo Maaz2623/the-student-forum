@@ -36,13 +36,11 @@ const EventCard = ({
     eventId: eventId,
   });
 
-  console.log(likesCount);
-
-  const [likes, setLikeCount] = useState(likesCount);
+  let totalLikesCount = likesCount as number;
 
   const handleLike = async () => {
     setLiked(true);
-    setLikeCount(likesCount! + 1);
+    totalLikesCount = totalLikesCount + 1;
     await like({
       userId: user?.id as string,
       eventId: eventId,
@@ -90,7 +88,7 @@ const EventCard = ({
                   )}
                 />
                 <span className="absolute -top-2 -right-2 transition-all duration-300 bg-white border p-1 text-xs rounded-full size-5 text-neutral-800 flex justify-center items-center">
-                  {likes}
+                  {totalLikesCount}
                 </span>
               </Button>
             </div>
