@@ -35,6 +35,6 @@ export const getLikeCount = query({
       .withIndex("by_event_id", (q) => q.eq("eventId", args.eventId))
       .collect();
 
-    return likes.length;
+    return likes.length; // Simply return the count of likes
   },
 });

@@ -32,15 +32,17 @@ const EventCard = ({
 
   const like = useMutation(api.likes.incrementLike);
 
-  const getLikesCount = useQuery(api.likes.getLikeCount, {
+  const likesCount = useQuery(api.likes.getLikeCount, {
     eventId: eventId,
   });
 
-  const [likes, setLikeCount] = useState(getLikesCount || 0);
+  console.log(likesCount);
+
+  const [likes, setLikeCount] = useState(likesCount);
 
   const handleLike = async () => {
     setLiked(true);
-    setLikeCount((likes as number) + 1);
+    setLikeCount(likesCount! + 1);
     await like({
       userId: user?.id as string,
       eventId: eventId,
