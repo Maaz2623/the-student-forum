@@ -35,6 +35,7 @@ const EventManagement = async () => {
                 eventDate={event.eventDate}
                 eventVenue={event.eventVenue}
                 _creationTime={event._creationTime}
+                ticketPrice={event.ticketPrice}
               />
             );
           })}
