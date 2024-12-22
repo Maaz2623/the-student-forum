@@ -26,11 +26,12 @@ const EventsPage = async () => {
         </p>
       </header>
       <Separator className="my-6" />
-      <div className="flex justify-center items-center w-full border">
+      <div className="flex justify-center items-center w-full">
         <div className="flex md:flex-row flex-col justify-center md:justify-start items-center flex-wrap gap-x-7 gap-y-10 ">
           {events.map((event) => {
             return (
               <EventCard
+                ticketPrice={event.ticketPrice}
                 key={event._id as string}
                 _id={event._id}
                 eventName={event.eventName}
