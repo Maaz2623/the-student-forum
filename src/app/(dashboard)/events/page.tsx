@@ -5,6 +5,7 @@ import EventCard from "./_components/event-card";
 import { api } from "../../../../convex/_generated/api";
 import { usePaginatedQuery } from "convex/react";
 import { LoaderIcon } from "lucide-react";
+import FullscreenLoader from "@/components/fullscreen-loader";
 
 const EventsPage = () => {
   const {
@@ -59,17 +60,7 @@ const EventsPage = () => {
           </p>
         </header>
         <Separator className="my-6" />
-        <div className="flex justify-center items-center border h-full w-full">
-          <LoaderIcon className="size-8 animate-spin text-green-600" />
-        </div>
-        <div
-          ref={loaderRef}
-          className="h-20 w-full flex justify-center items-center"
-        >
-          {status === "LoadingMore" && (
-            <LoaderIcon className="animate-spin text-green-800" />
-          )}
-        </div>
+        <FullscreenLoader title="Loading events..." />
       </div>
     );
   }

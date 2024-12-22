@@ -8,11 +8,18 @@ const sourGummy = Sour_Gummy({
   weight: ["500"],
 });
 
-const FullscreenLoader = ({ title }: { title: string }) => {
+const FullscreenLoader = ({
+  title,
+  className,
+}: {
+  title: string;
+  className?: string;
+}) => {
   return (
     <div
       className={cn(
-        "absolute inset-0 min-h-screen text-gray-900 w-full flex items-center justify-center z-50"
+        "absolute inset-0 min-h-screen text-gray-900 w-full flex items-center justify-center z-50",
+        className && className
       )}
     >
       <div className="flex flex-col items-center gap-y-1 justify-center">

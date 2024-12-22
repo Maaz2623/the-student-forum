@@ -22,7 +22,6 @@ export default defineSchema({
   tickets: defineTable({
     eventId: v.id("events"),
     userId: v.id("users"), // Associate tickets with users
-    price: v.number(),
     transactionId: v.string(),
     uniqueCode: v.string(),
     burnt: v.boolean(),

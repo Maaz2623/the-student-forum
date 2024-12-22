@@ -4,8 +4,9 @@ import { api } from "../../../../../convex/_generated/api";
 import { Separator } from "@/components/ui/separator";
 import { LoaderIcon } from "lucide-react";
 import { DataTable } from "./components/data-table";
-import { columns } from "./components/columns";
+import { columns, Event } from "./components/columns";
 import { usePaginatedQuery } from "convex/react";
+import FullscreenLoader from "@/components/fullscreen-loader";
 
 const EventManagement = () => {
   const {
@@ -52,6 +53,15 @@ const EventManagement = () => {
 
   if (!events) return;
 
+  const formattedEvents: Event[] = events.map((event) => ({
+    eventId: event._id,
+    eventName: event.eventName,
+    eventDate: event.eventDate,
+    eventVenue: event.eventVenue,
+    eventCardDescription: event.eventCardDescription,
+    ticketPrice: event.ticketPrice,
+  }));
+
   return (
     <div className="">
       <header className="flex justify-between items-center">
@@ -64,7 +74,11 @@ const EventManagement = () => {
       </header>
       <Separator className="my-6" />
       <div className="flex flex-col gap-y-4">
-        <DataTable columns={columns} data={events} />
+        {events.length === 0 ? (
+          <FullscreenLoader title="Loading events..." />
+        ) : (
+          <DataTable columns={columns} data={formattedEvents} />
+        )}
         <div
           className="w-full h-20 flex justify-center items-center"
           ref={loaderRef}

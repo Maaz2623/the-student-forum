@@ -1,12 +1,9 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Doc } from "../../../../../../convex/_generated/dataModel";
+import { Id } from "../../../../../../convex/_generated/dataModel";
 import toast from "react-hot-toast";
-import {
-  MoreHorizontal,
-  PenBoxIcon,
-} from "lucide-react";
+import { MoreHorizontal, PenBoxIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -22,21 +19,39 @@ import { GotoEvent } from "./goto-event";
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
-export const columns: ColumnDef<Doc<"events">>[] = [
+export type Event = {
+  eventId: string;
+  eventName: string;
+  eventDate: number;
+  eventVenue: string;
+  eventCardDescription: string;
+  ticketPrice: number;
+};
+
+export const columns: ColumnDef<Event>[] = [
   {
-    accessorKey: "_id",
+    accessorKey: "eventId",
     header: "Event ID",
     cell: ({ row }) => {
       return (
         <p
           className="w-[100px] truncate hover:bg-neutral-200 rounded-sm px-1"
           onClick={() => {
-            navigator.clipboard.writeText(row.original._id);
+            navigator.clipboard.writeText(row.original.eventId);
             toast.success(`Copied id to clipboard!`);
           }}
         >
-          {row.original._id}
+          {row.original.eventId}
         </p>
+      );
+    },
+    filterFn: (row, columnId, filterValue) => {
+      const id = String(row.original.eventId); // Ensure id is a string
+      const eventName = row.original.eventName || ""; // Handle missing eventName
+
+      return (
+        eventName.toLowerCase().includes(filterValue.toLowerCase()) ||
+        id.toLowerCase().includes(filterValue.toLowerCase())
       );
     },
   },
@@ -78,8 +93,13 @@ export const columns: ColumnDef<Doc<"events">>[] = [
     id: "actions",
     header: "Actions",
     cell: ({ row }) => {
-      const { eventName, eventCardDescription, eventVenue, _id, ticketPrice } =
-        row.original;
+      const {
+        eventName,
+        eventCardDescription,
+        eventVenue,
+        eventId,
+        ticketPrice,
+      } = row.original;
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
@@ -92,7 +112,7 @@ export const columns: ColumnDef<Doc<"events">>[] = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <EventUpdateForm
-              eventId={_id}
+              eventId={eventId as Id<"events">}
               eventName={eventName}
               eventCardDescription={eventCardDescription}
               eventVenue={eventVenue}
@@ -107,7 +127,7 @@ export const columns: ColumnDef<Doc<"events">>[] = [
                 Edit
               </DropdownMenuItem>
             </EventUpdateForm>
-            <GotoEvent eventId={_id} />
+            <GotoEvent eventId={eventId as Id<"events">} />
           </DropdownMenuContent>
         </DropdownMenu>
       );
