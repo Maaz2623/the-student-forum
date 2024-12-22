@@ -23,18 +23,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useMutation } from "convex/react";
-import { api } from "../../../../../../convex/_generated/api";
-import { Id } from "../../../../../../convex/_generated/dataModel";
+import { api } from "../../../../../../../convex/_generated/api";
 import toast from "react-hot-toast";
-
-interface EventUpdateFormProps {
-  eventId: Id<"events">;
-  eventName: string;
-  eventCardDescription: string;
-  eventVenue: string;
-  ticketPrice: number;
-  children: React.ReactNode;
-}
+import { DatePickerWithRange } from "./event-range-date-picker";
 
 const formSchema = z.object({
   eventName: z.string(),
@@ -43,39 +34,26 @@ const formSchema = z.object({
   ticketPrice: z.string(),
 });
 
-const EventUpdateForm = ({
-  eventId,
-  children,
-  eventName,
-  eventCardDescription,
-  eventVenue,
-  ticketPrice,
-}: EventUpdateFormProps) => {
+const EventCreateForm = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const update = useMutation(api.events.updateEvent);
+  const update = useMutation(api.events.createEvent);
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      eventName: eventName,
-      eventCardDescription: eventCardDescription,
-      eventVenue: eventVenue,
-      ticketPrice: ticketPrice.toString(),
+      eventName: "",
+      eventCardDescription: "",
+      eventVenue: "",
+      ticketPrice: "",
     },
   });
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       setLoading(true);
-      update({
-        eventId: eventId,
-        eventName: values.eventName,
-        eventCardDescription: values.eventCardDescription,
-        eventVenue: values.eventVenue,
-        ticketPrice: Number(values.ticketPrice),
-      });
+
       setOpen(false);
       toast.success("Event Updated");
     } catch {
@@ -91,10 +69,10 @@ const EventUpdateForm = ({
       <DialogTrigger className="outline-none focus:outline-none" asChild>
         {children}
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="">
         <DialogHeader>
           <DialogTitle className="w-full text-center text-2xl mb-3">
-            Edit Event
+            Create Event
           </DialogTitle>
           <VisuallyHidden.Root>
             <DialogDescription>
@@ -104,24 +82,30 @@ const EventUpdateForm = ({
           </VisuallyHidden.Root>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField
-              control={form.control}
-              name="eventName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Event Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="e.g. Movie Night"
-                      {...field}
-                      disabled={loading}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <div className="flex">
+              <FormField
+                control={form.control}
+                name="eventName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Event Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="e.g. Movie Night"
+                        {...field}
+                        disabled={loading}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div>
+                <label htmlFor="">Date</label>
+                <DatePickerWithRange />
+              </div>
+            </div>
             <FormField
               control={form.control}
               name="eventCardDescription"
@@ -186,4 +170,4 @@ const EventUpdateForm = ({
   );
 };
 
-export default EventUpdateForm;
+export default EventCreateForm;

@@ -1,12 +1,16 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+import { paginationOptsValidator } from "convex/server";
 
 export const getEvents = query({
-  args: {},
-  handler: async (ctx) => {
-    const events = await ctx.db.query("events").order("desc").collect();
-
-    if (!events) return;
+  args: {
+    paginationOpts: paginationOptsValidator,
+  },
+  handler: async (ctx, args) => {
+    const events = await ctx.db
+      .query("events")
+      .order("desc")
+      .paginate(args.paginationOpts);
 
     return events;
   },
@@ -46,5 +50,27 @@ export const updateEvent = mutation({
     });
 
     return updatedEvent;
+  },
+});
+
+export const createEvent = mutation({
+  args: {
+    userId: v.string(),
+    eventName: v.string(),
+    eventVenue: v.string(),
+    eventDate: v.number(),
+    eventCardDescription: v.string(),
+    ticketPrice: v.number(),
+  },
+  handler: async (ctx, args) => {
+    const newEvent = await ctx.db.insert("events", {
+      eventName: args.eventName,
+      eventVenue: args.eventVenue,
+      eventDate: args.eventDate,
+      eventCardDescription: args.eventCardDescription,
+      ticketPrice: args.ticketPrice,
+    });
+
+    return newEvent;
   },
 });

@@ -7,8 +7,8 @@ import { HeartIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useUser } from "@clerk/nextjs";
-import { Doc } from "../../../../../../convex/_generated/dataModel";
-import { api } from "../../../../../../convex/_generated/api";
+import { Doc } from "../../../../../../../convex/_generated/dataModel";
+import { api } from "../../../../../../../convex/_generated/api";
 
 const EventCard = (event: Doc<"events">) => {
   const router = useRouter();

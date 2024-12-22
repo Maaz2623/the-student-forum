@@ -1,44 +1,85 @@
-import { ConvexHttpClient } from "convex/browser";
-import React from "react";
+"use client";
+import React, { useEffect, useRef } from "react";
 import { api } from "../../../../../convex/_generated/api";
 import { Separator } from "@/components/ui/separator";
-import EventCard from "./components/event-card";
+import { Button } from "@/components/ui/button";
+import { LoaderIcon, PlusIcon } from "lucide-react";
+import EventCreateForm from "./components/(delete)/event-create-form ";
+import { DataTable } from "./components/data-table";
+import { columns } from "./components/columns";
+import { usePaginatedQuery } from "convex/react";
 
-const EventManagement = async () => {
-  const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
+const EventManagement = () => {
+  const {
+    results: events,
+    loadMore,
+    status,
+  } = usePaginatedQuery(
+    api.events.getEvents,
+    {},
+    {
+      initialNumItems: 10,
+    }
+  );
 
-  const getEvents = async () => {
-    return await convex.query(api.events.getEvents);
-  };
+  const loaderRef = useRef<HTMLDivElement>(null);
 
-  const events = await getEvents();
+  useEffect(() => {
+    const loaderNode = loaderRef.current; // Capture the ref value
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const target = entries[0];
+        if (target.isIntersecting && status === "CanLoadMore") {
+          loadMore(6);
+        }
+      },
+      {
+        root: null, // Observe in the viewport
+        rootMargin: "0px",
+        threshold: 1.0, // Trigger when the loader is fully visible
+      }
+    );
+
+    if (loaderNode) {
+      observer.observe(loaderNode);
+    }
+
+    return () => {
+      if (loaderNode) {
+        observer.unobserve(loaderNode); // Use the captured value
+      }
+    };
+  }, [status, loadMore]);
 
   if (!events) return;
+
   return (
     <div className="">
-      <header>
-        <h1 className="text-3xl font-bold">Events</h1>
-        <p className="text-sm text-neutral-600 mt-2">
-          Join us in the events and enjoy unforgettable moments!
-        </p>
+      <header className="flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl font-bold">Events</h1>
+          <p className="text-sm text-neutral-600 mt-2">
+            Join us in the events and enjoy unforgettable moments!
+          </p>
+        </div>
+        <EventCreateForm>
+          <Button className="mr-4">
+            <PlusIcon className="size-7" />
+            Create
+          </Button>
+        </EventCreateForm>
       </header>
       <Separator className="my-6" />
-      <div className="flex justify-center items-center w-full">
-        <div className="flex md:flex-row flex-col justify-center md:justify-start items-center flex-wrap gap-x-7 gap-y-10 ">
-          {events.map((event) => {
-            return (
-              <EventCard
-                key={event._id as string}
-                _id={event._id}
-                eventName={event.eventName}
-                eventCardDescription={event.eventCardDescription}
-                eventDate={event.eventDate}
-                eventVenue={event.eventVenue}
-                _creationTime={event._creationTime}
-                ticketPrice={event.ticketPrice}
-              />
-            );
-          })}
+      <div className="flex flex-col gap-y-4">
+        <DataTable columns={columns} data={events} />
+        <div
+          className="w-full h-40 flex justify-center items-center"
+          ref={loaderRef}
+        >
+          {status === "LoadingMore" && (
+            <LoaderIcon className="animate-spin size-5 text-green-800" />
+          )}
         </div>
       </div>
     </div>
