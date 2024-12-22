@@ -2,9 +2,7 @@
 import React, { useEffect, useRef } from "react";
 import { api } from "../../../../../convex/_generated/api";
 import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-import { LoaderIcon, PlusIcon } from "lucide-react";
-import EventCreateForm from "./components/(delete)/event-create-form ";
+import { LoaderIcon } from "lucide-react";
 import { DataTable } from "./components/data-table";
 import { columns } from "./components/columns";
 import { usePaginatedQuery } from "convex/react";
@@ -63,12 +61,6 @@ const EventManagement = () => {
             Join us in the events and enjoy unforgettable moments!
           </p>
         </div>
-        <EventCreateForm>
-          <Button className="mr-4">
-            <PlusIcon className="size-7" />
-            Create
-          </Button>
-        </EventCreateForm>
       </header>
       <Separator className="my-6" />
       <div className="flex flex-col gap-y-4">
