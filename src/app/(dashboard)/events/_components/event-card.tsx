@@ -8,43 +8,43 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { api } from "../../../../../convex/_generated/api";
 import { useUser } from "@clerk/nextjs";
-import { Id } from "../../../../../convex/_generated/dataModel";
+import { Doc } from "../../../../../convex/_generated/dataModel";
 
-interface EventCardProps {
-  eventId: Id<"events">;
-  eventName: string;
-  eventDate: number;
-  eventVenue: string;
-  eventCardDescription: string;
-}
-
-const EventCard = ({
-  eventId,
-  eventName,
-  eventDate,
-  eventVenue,
-  eventCardDescription,
-}: EventCardProps) => {
+const EventCard = (event: Doc<"events">) => {
   const router = useRouter();
-  const [liked, setLiked] = useState(false);
 
   const { user } = useUser();
 
-  const like = useMutation(api.likes.incrementLike);
-
-  const likesCount = useQuery(api.likes.getLikeCount, {
-    eventId: eventId,
+  const likesCountQuery = useQuery(api.likes.getLikes, {
+    eventId: event._id,
   });
 
-  let totalLikesCount = likesCount as number;
+  const like = useMutation(api.likes.like);
+
+  const initialLikesCount = likesCountQuery?.length as number;
+
+  const currentUser = useQuery(api.users.getCurrentUser, {
+    userId: user?.id as string,
+  });
+
+  let existingLike = likesCountQuery?.some(
+    ({ userId }) => userId === currentUser?._id
+  );
+
+  const [liked, setLiked] = useState(false);
 
   const handleLike = async () => {
-    setLiked(true);
-    totalLikesCount = totalLikesCount + 1;
-    await like({
-      userId: user?.id as string,
-      eventId: eventId,
-    });
+    try {
+      setLiked(true);
+      existingLike = true;
+      await like({
+        userId: user?.id as string,
+        eventId: event._id,
+      });
+      console.log("clicked");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -56,18 +56,18 @@ const EventCard = ({
         <div className="p-4 flex flex-col ">
           <div className="flex-grow">
             <h2 className="font-semibold md:text-md lg:text-xl text-gray-800">
-              {eventName}
+              {event.eventName}
             </h2>
             <p className="lg:text-sm text-xs text-neutral-500 mt-1">
-              {eventDate}, {eventVenue}
+              {event.eventDate}, {event.eventVenue}
             </p>
             <p className="lg:text-sm text-xs text-neutral-600 mt-2">
-              {eventCardDescription}
+              {event.eventCardDescription}
             </p>
           </div>
           <div className="lg:mt-4 md:mt-6 mt-8 flex gap-x-2">
             <Button
-              onClick={() => router.push(`/events/${eventId}`)}
+              onClick={() => router.push(`/events/${event._id}`)}
               size="sm"
               className="h-9 bg-gradient-to-br from-green-700 hover:text-white hover:bg-green-600 to-green-500 text-white"
               variant={`outline`}
@@ -84,11 +84,11 @@ const EventCard = ({
                 <HeartIcon
                   className={cn(
                     "text-rose-500 transition-colors duration-300",
-                    liked && "fill-current"
+                    (liked || existingLike) && "fill-current"
                   )}
                 />
                 <span className="absolute -top-2 -right-2 transition-all duration-300 bg-white border p-1 text-xs rounded-full size-5 text-neutral-800 flex justify-center items-center">
-                  {totalLikesCount}
+                  {initialLikesCount}
                 </span>
               </Button>
             </div>

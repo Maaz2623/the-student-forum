@@ -1,31 +1,44 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 
-export const incrementLike = mutation({
+export const like = mutation({
   args: {
     userId: v.string(),
     eventId: v.id("events"),
   },
   handler: async (ctx, args) => {
-    const clerkAccount = await ctx.db
+    const convexAccount = await ctx.db
       .query("users")
       .withIndex("by_user_id", (q) => q.eq("userId", args.userId))
       .first();
 
-    if (!clerkAccount) return;
+    if (!convexAccount) return;
 
-    await ctx.db.insert("likes", {
-      userId: clerkAccount._id,
-      eventId: args.eventId,
-    });
+    const existingLike = await ctx.db
+      .query("likes")
+      .withIndex("by_user_and_event", (q) =>
+        q.eq("userId", convexAccount._id).eq("eventId", args.eventId)
+      )
+      .first();
 
-    return {
-      liked: true,
-    };
+    if (existingLike)
+      return {
+        liked: true,
+      };
+
+    if (!existingLike) {
+      await ctx.db.insert("likes", {
+        userId: convexAccount._id,
+        eventId: args.eventId,
+      });
+      return {
+        liked: true,
+      };
+    }
   },
 });
 
-export const getLikeCount = query({
+export const getLikes = query({
   args: {
     eventId: v.id("events"),
   },
@@ -35,6 +48,6 @@ export const getLikeCount = query({
       .withIndex("by_event_id", (q) => q.eq("eventId", args.eventId))
       .collect();
 
-    return likes.length; // Simply return the count of likes
+    return likes; // Simply return the count of likes
   },
 });

@@ -11,7 +11,6 @@ export default defineSchema({
     eventDate: v.number(), // Store event dates as timestamps
     eventVenue: v.string(),
     eventCardDescription: v.string(),
-    likesCount: v.number(),
   }),
   likes: defineTable({
     userId: v.id("users"),

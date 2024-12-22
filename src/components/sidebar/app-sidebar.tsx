@@ -63,7 +63,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           {items.map((item) => {
             const Icon = item.icon;
-            const isActive = pathname === item.link;
+            const isActive = pathname.includes(item.link);
 
             return (
               <SidebarMenuItem key={item.link}>

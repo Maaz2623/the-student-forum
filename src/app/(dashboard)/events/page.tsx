@@ -4,6 +4,8 @@ import EventCard from "./_components/event-card";
 import { ConvexHttpClient } from "convex/browser";
 import { api } from "../../../../convex/_generated/api";
 
+export const revalidate = 60;
+
 const EventsPage = async () => {
   const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
 
@@ -29,12 +31,13 @@ const EventsPage = async () => {
           {events.map((event) => {
             return (
               <EventCard
-                eventId={event._id}
-                key={event._id}
+                key={event._id as string}
+                _id={event._id}
                 eventName={event.eventName}
                 eventCardDescription={event.eventCardDescription}
                 eventDate={event.eventDate}
                 eventVenue={event.eventVenue}
+                _creationTime={event._creationTime}
               />
             );
           })}
