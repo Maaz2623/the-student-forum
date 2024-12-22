@@ -66,7 +66,7 @@ const EventManagement = () => {
       <div className="flex flex-col gap-y-4">
         <DataTable columns={columns} data={events} />
         <div
-          className="w-full h-40 flex justify-center items-center"
+          className="w-full h-20 flex justify-center items-center"
           ref={loaderRef}
         >
           {status === "LoadingMore" && (
