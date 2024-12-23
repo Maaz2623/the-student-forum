@@ -10,6 +10,11 @@ import { Loader } from "lucide-react";
 import QRCode from "qrcode";
 import toast from "react-hot-toast";
 import Image from "next/image";
+import { useQuery } from "convex/react";
+import { api } from "../../../../../../convex/_generated/api";
+import { useUser } from "@clerk/nextjs";
+import { DialogDescription } from "@/components/ui/dialog";
+import { badgeVariants } from "@/components/ui/badge";
 
 const TicketPaymentDialog = ({
   open,
@@ -26,6 +31,13 @@ const TicketPaymentDialog = ({
 }) => {
   const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
 
+  const { user } = useUser();
+
+  const ticket = useQuery(api.tickets.getTicketByPaymentId, {
+    userId: user?.id as string,
+    paymentId: paymentId,
+  });
+
   useEffect(() => {
     if (uniqueCode) {
       QRCode.toDataURL(uniqueCode)
@@ -33,6 +45,8 @@ const TicketPaymentDialog = ({
         .catch((err) => toast.error("QR Generation Failed", err));
     }
   }, [uniqueCode]);
+
+  if (!user || !ticket) return;
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -45,6 +59,13 @@ const TicketPaymentDialog = ({
                 ? "Ticket QR"
                 : "Error"}
           </DialogTitle>
+          <DialogDescription className="w-full text-center">
+            <div
+              className={`${badgeVariants({ variant: `${ticket.burnt ? "destructive" : "default"}` })} rounded-md h-8 text-lg`}
+            >
+              {ticket.burnt ? "Redeemed" : "Active"}
+            </div>
+          </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col items-center">
           {isProcessing && (

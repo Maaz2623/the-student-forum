@@ -81,3 +81,27 @@ export const burnTicket = mutation({
     return true;
   },
 });
+
+export const getTicketByPaymentId = query({
+  args: {
+    paymentId: v.string(),
+    userId: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_user_id", (q) => q.eq("userId", args.userId))
+      .first();
+
+    if (!user) return;
+
+    const ticket = await ctx.db
+      .query("tickets")
+      .withIndex("by_payment_id", (q) => q.eq("paymentId", args.paymentId))
+      .first();
+
+    if (!ticket) return;
+
+    return ticket;
+  },
+});
