@@ -28,5 +28,6 @@ export default defineSchema({
     burnt: v.boolean(),
   })
     .index("by_payment_id", ["paymentId"])
-    .index("by_order_id", ["orderId"]),
+    .index("by_order_id", ["orderId"])
+    .index("by_user_id_by_event_id", ["userId", "eventId"]),
 });

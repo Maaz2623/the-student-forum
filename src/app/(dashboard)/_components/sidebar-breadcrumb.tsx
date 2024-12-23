@@ -42,7 +42,11 @@ const SidebarBreadcrumb = () => {
                 {/* Make the last item a page instead of a link */}
                 {index === pathSegments.length - 1 ? (
                   <BreadcrumbPage>
-                    {label.includes("User") ? "User" : label}
+                    {label.includes("User")
+                      ? "User"
+                      : label.length > 7
+                        ? `${label.slice(0, 7)}...`
+                        : label}
                   </BreadcrumbPage>
                 ) : (
                   <BreadcrumbLink href={href}>{label}</BreadcrumbLink>
