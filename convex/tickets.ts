@@ -59,3 +59,25 @@ export const getTicket = query({
     return ticket;
   },
 });
+
+export const burnTicket = mutation({
+  args: {
+    uniqueCode: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const ticket = await ctx.db
+      .query("tickets")
+      .withIndex("by_unique_code", (q) => q.eq("uniqueCode", args.uniqueCode))
+      .first();
+
+    if (!ticket) return;
+
+    if (ticket.burnt) return false;
+
+    await ctx.db.patch(ticket._id, {
+      burnt: true,
+    });
+
+    return true;
+  },
+});

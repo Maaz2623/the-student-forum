@@ -29,5 +29,6 @@ export default defineSchema({
   })
     .index("by_payment_id", ["paymentId"])
     .index("by_order_id", ["orderId"])
-    .index("by_user_id_by_event_id", ["userId", "eventId"]),
+    .index("by_user_id_by_event_id", ["userId", "eventId"])
+    .index("by_unique_code", ["uniqueCode"]),
 });

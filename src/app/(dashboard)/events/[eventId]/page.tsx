@@ -89,6 +89,8 @@ const EventIdPage = () => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         handler: async function (response: any) {
           try {
+            if (existingTicket) return;
+
             setIsProcessing(true);
             setTicketDialog(true); // Open dialog when payment starts
 

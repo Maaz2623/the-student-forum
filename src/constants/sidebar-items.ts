@@ -3,6 +3,7 @@ import {
   CalendarCogIcon,
   LucideIcon,
   TicketIcon,
+  TicketXIcon,
   UserIcon,
   Users,
 } from "lucide-react";
@@ -51,5 +52,11 @@ export const sidebarBackendItems: SidebarItemsProps[] = [
     link: "/admin/event-management",
     icon: CalendarCogIcon,
     tag: "event-management",
+  },
+  {
+    label: "Ticket Burner",
+    link: "/admin/ticket-burner",
+    icon: TicketXIcon,
+    tag: "ticket-burner",
   },
 ];
