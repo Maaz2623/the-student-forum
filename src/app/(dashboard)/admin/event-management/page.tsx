@@ -6,7 +6,18 @@ import { LoaderIcon } from "lucide-react";
 import { DataTable } from "./components/data-table";
 import { columns, Event } from "./components/columns";
 import { usePaginatedQuery } from "convex/react";
-import FullscreenLoader from "@/components/fullscreen-loader";
+import { Skeleton } from "@/components/ui/skeleton";
+
+const EventTableSkeleton = () => {
+  return (
+    <div className="">
+      <div className="flex items-center py-4">
+        <Skeleton className="w-1/3 bg-neutral-200 h-10 mt-auto" />
+      </div>
+      <Skeleton className="min-h-screen w-full bg-neutral-200" />
+    </div>
+  );
+};
 
 const EventManagement = () => {
   const {
@@ -75,7 +86,7 @@ const EventManagement = () => {
       <Separator className="my-6" />
       <div className="flex flex-col gap-y-4">
         {events.length === 0 ? (
-          <FullscreenLoader title="Loading events..." />
+          <EventTableSkeleton />
         ) : (
           <DataTable columns={columns} data={formattedEvents} />
         )}

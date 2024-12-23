@@ -65,7 +65,7 @@ const EventIdPage = () => {
         amount: AMOUNT * 100,
         currency: "INR",
         name: "The Student Forum",
-        description: "Test Transaction",
+        description: `Ticket purchase for ${event.eventName} event`,
         order_id: data.orderId,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         handler: function (response: any) {

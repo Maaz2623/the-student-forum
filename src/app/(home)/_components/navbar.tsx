@@ -36,11 +36,11 @@ const Navbar = () => {
     <div className="border-gray-150 dark:border-gray-800 h-14 px-4 py-3 flex border-b justify-between items-center">
       <div className={`flex items-center justify-center gap-x-1`}>
         <Image
-          src={`/logo.svg`}
+          src={`/logo.png`}
           alt="logo"
-          width={30}
-          height={30}
-          className=""
+          width={100}
+          height={100}
+          className="border size-10"
         />
         <p className={`${teko.className} text-xl sm:text-2xl lg:text-3xl`}>
           The Student Forum

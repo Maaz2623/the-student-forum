@@ -16,11 +16,11 @@ const OrganisationDropdown = () => {
       >
         <div className="flex items-center justify-start gap-x-2">
           <Image
-            src={`/logo.svg`}
+            src={`/logo.png`}
             alt="logo"
             width={100}
             height={100}
-            className="size-5"
+            className="size-7"
           />
           <p className="text-base truncate text-start font-semibold">
             The Student Forum

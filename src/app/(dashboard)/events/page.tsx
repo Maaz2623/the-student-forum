@@ -5,7 +5,7 @@ import EventCard from "./_components/event-card";
 import { api } from "../../../../convex/_generated/api";
 import { usePaginatedQuery } from "convex/react";
 import { LoaderIcon } from "lucide-react";
-import FullscreenLoader from "@/components/fullscreen-loader";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const EventsPage = () => {
   const {
@@ -60,7 +60,16 @@ const EventsPage = () => {
           </p>
         </header>
         <Separator className="my-6" />
-        <FullscreenLoader title="Loading events..." />
+        <div className="flex justify-center items-center w-full">
+          <div className="flex md:flex-row flex-col justify-center md:justify-start items-center flex-wrap gap-x-7 gap-y-10">
+            <Skeleton className="w-[300px] h-[350px] rounded-lg bg-neutral-200" />
+            <Skeleton className="w-[300px] h-[350px] rounded-lg bg-neutral-200" />
+            <Skeleton className="w-[300px] h-[350px] rounded-lg bg-neutral-200" />
+            <Skeleton className="w-[300px] h-[350px] rounded-lg bg-neutral-200" />
+            <Skeleton className="w-[300px] h-[350px] rounded-lg bg-neutral-200" />
+            <Skeleton className="w-[300px] h-[350px] rounded-lg bg-neutral-200" />
+          </div>
+        </div>
       </div>
     );
   }

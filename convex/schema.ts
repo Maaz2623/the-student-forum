@@ -22,8 +22,11 @@ export default defineSchema({
   tickets: defineTable({
     eventId: v.id("events"),
     userId: v.id("users"), // Associate tickets with users
-    transactionId: v.string(),
+    paymentId: v.string(),
+    orderId: v.string(),
     uniqueCode: v.string(),
     burnt: v.boolean(),
-  }).index("by_transaction_id", ["transactionId"]),
+  })
+    .index("by_payment_id", ["paymentId"])
+    .index("by_order_id", ["orderId"]),
 });
