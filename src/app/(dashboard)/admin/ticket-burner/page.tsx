@@ -85,7 +85,7 @@ const QRScanner = () => {
         <div className="z-40">
           <Scan
             className={cn(
-              "size-[500px] text-white/80",
+              "lg:size-[500px] md:size-[400px] sm:size-[300px] size-250px text-white/80",
               data && "text-green-500",
               error && "text-red-500"
             )}
