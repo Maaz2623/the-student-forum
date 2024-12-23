@@ -49,6 +49,7 @@ const QRScanner = () => {
             if (burnt) {
               toast.success("Ticket Valid");
               setData(scannedCode);
+              navigator.vibrate(500);
             } else {
               setError(true);
               toast.error("Invalid Ticket");
