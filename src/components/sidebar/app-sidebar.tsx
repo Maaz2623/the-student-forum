@@ -37,6 +37,12 @@ const currentUserAtom = atom<Doc<"users"> | null>(null);
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
   const router = useRouter();
+
+  router.prefetch(`/events`);
+  router.prefetch(`/community`);
+  router.prefetch(`/my-profile`);
+  router.prefetch(`/my-tickets`);
+
   const { signOut, user } = useClerk();
 
   const data = useQuery(api.users.getCurrentUser, {

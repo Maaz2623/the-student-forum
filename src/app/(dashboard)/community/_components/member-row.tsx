@@ -29,6 +29,7 @@ const MemberRow = ({ id, profileImage, fullName, email }: MemberRowProps) => {
             alt="Profile Image"
             width={100}
             height={100}
+            loading="lazy"
             className="size-12 z-40 object-cover object-center cursor-pointer rounded-full border-4 border-white shadow-md"
           />
         </DialogTrigger>

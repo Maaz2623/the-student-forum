@@ -1,11 +1,11 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
 import { Separator } from "@/components/ui/separator";
-import FullscreenLoader from "@/components/fullscreen-loader";
 import { convex } from "@/lib/utils";
 import { api } from "../../../../convex/_generated/api";
 import { currentUser } from "@clerk/nextjs/server";
+import FullscreenLoader from "@/components/fullscreen-loader";
 
 const MembersPage = async () => {
   const user = await currentUser();
@@ -35,11 +35,9 @@ const MembersPage = async () => {
       </header>
       <Separator className="my-6" />
       <div className="">
-        {data.length === 0 ? (
-          <FullscreenLoader title="Loading members..." />
-        ) : (
+        <Suspense fallback={<FullscreenLoader title="loading members..." />}>
           <DataTable columns={columns} data={formattedUserList} />
-        )}
+        </Suspense>
       </div>
     </div>
   );

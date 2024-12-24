@@ -40,6 +40,7 @@ const MyProfilePage = () => {
               alt="Profile Image"
               width={150}
               height={150}
+              loading="lazy"
               className="w-24 h-24 bg-neutral-100 md:w-32 md:h-32 object-cover object-center cursor-pointer absolute left-4 md:left-10 -bottom-12 rounded-full border-4 border-white shadow-md"
             />
           </DialogTrigger>
