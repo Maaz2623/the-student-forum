@@ -4,6 +4,11 @@ import { mutation, query } from "./_generated/server";
 export const createUser = mutation({
   args: {
     userId: v.string(),
+    imageUrl: v.string(),
+    createdAt: v.float64(),
+    emailAddress: v.string(),
+    fullName: v.string(),
+    phoneNumber: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     const user = await ctx.db
@@ -20,7 +25,13 @@ export const createUser = mutation({
     if (!user) {
       return await ctx.db.insert("users", {
         userId: args.userId,
-        userRole: RoleType.MEMBER,
+        role: RoleType.MEMBER,
+        imageUrl: args.imageUrl,
+        banned: false,
+        createdAt: Date.now(),
+        emailAddress: args.emailAddress,
+        fullName: args.fullName,
+        phoneNumber: args.phoneNumber,
       });
     }
 

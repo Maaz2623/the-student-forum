@@ -4,7 +4,13 @@ import { v } from "convex/values";
 export default defineSchema({
   users: defineTable({
     userId: v.string(),
-    userRole: v.string(),
+    role: v.string(),
+    imageUrl: v.string(),
+    banned: v.boolean(),
+    createdAt: v.float64(),
+    emailAddress: v.string(),
+    fullName: v.string(),
+    phoneNumber: v.optional(v.string()),
   }).index("by_user_id", ["userId"]),
   events: defineTable({
     eventName: v.string(),

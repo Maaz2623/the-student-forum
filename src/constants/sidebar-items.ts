@@ -24,8 +24,8 @@ export const sidebarGeneralItems: SidebarItemsProps[] = [
     tag: "events",
   },
   {
-    label: "Members",
-    link: "/members",
+    label: "Community",
+    link: "/community",
     icon: Users,
     tag: "members",
   },

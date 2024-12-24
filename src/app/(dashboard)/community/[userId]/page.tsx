@@ -13,16 +13,16 @@ import { Separator } from "@/components/ui/separator";
 import AchievementsContainer from "../../my-profile/_components/achievements-container";
 import { createClerkClient } from "@clerk/nextjs/server";
 
-const MemberIdPage = async ({
+const UserIdPage = async ({
   params,
 }: {
-  params: Promise<{ memberId: string }>;
+  params: Promise<{ userId: string }>;
 }) => {
   const clerkClient = createClerkClient({
     secretKey: process.env.CLERK_SECRET_KEY!,
   });
 
-  const user = await clerkClient.users.getUser((await params).memberId);
+  const user = await clerkClient.users.getUser((await params).userId);
 
   const profileImage = user?.imageUrl || "/dummy-profile-image.svg";
 
@@ -86,4 +86,4 @@ const MemberIdPage = async ({
   );
 };
 
-export default MemberIdPage;
+export default UserIdPage;
