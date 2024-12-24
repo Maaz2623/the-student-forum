@@ -43,8 +43,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const profileItems = React.useMemo(() => sidebarProfileItems, []);
   const backendItems = React.useMemo(() => sidebarBackendItems, []);
 
-  if (!data) return;
-
   // if (!currentUser) return;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const renderSidebarGroup = (label: string, items: any[]) => (
