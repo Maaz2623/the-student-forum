@@ -29,40 +29,21 @@ import { useClerk } from "@clerk/nextjs";
 import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { RoleType } from "@/constants";
-import { atom, useAtom } from "jotai";
-import { Doc } from "../../../convex/_generated/dataModel";
-
-const currentUserAtom = atom<Doc<"users"> | null>(null);
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
   const router = useRouter();
-
-  router.prefetch(`/events`);
-  router.prefetch(`/community`);
-  router.prefetch(`/my-profile`);
-  router.prefetch(`/my-tickets`);
-
   const { signOut, user } = useClerk();
 
   const data = useQuery(api.users.getCurrentUser, {
     userId: user?.id as string,
   });
 
-  // Use Jotai atom to store and consume the currentUser state
-  const [, setCurrentUser] = useAtom(currentUserAtom);
-  const [currentUser] = useAtom(currentUserAtom);
-
-  // Update currentUser atom when data is fetched
-  React.useEffect(() => {
-    if (data) {
-      setCurrentUser(data);
-    }
-  }, [data, setCurrentUser]);
-
   const generalItems = React.useMemo(() => sidebarGeneralItems, []);
   const profileItems = React.useMemo(() => sidebarProfileItems, []);
   const backendItems = React.useMemo(() => sidebarBackendItems, []);
+
+  if (!data) return;
 
   // if (!currentUser) return;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -112,7 +93,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         {renderSidebarGroup("General", generalItems)}
         {renderSidebarGroup("Profile", profileItems)}
-        {currentUser?.role === RoleType.ADMIN &&
+        {data?.role === RoleType.ADMIN &&
           renderSidebarGroup("Content Management", backendItems)}
       </SidebarContent>
       <SidebarFooter className="">
