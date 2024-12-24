@@ -11,20 +11,22 @@ import {
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { Separator } from "@/components/ui/separator";
 import AchievementsContainer from "../../my-profile/_components/achievements-container";
-import { createClerkClient } from "@clerk/nextjs/server";
+import { convex } from "@/lib/utils";
+import { api } from "../../../../../convex/_generated/api";
+import { Id } from "../../../../../convex/_generated/dataModel";
 
 const UserIdPage = async ({
   params,
 }: {
   params: Promise<{ userId: string }>;
 }) => {
-  const clerkClient = createClerkClient({
-    secretKey: process.env.CLERK_SECRET_KEY!,
+  const user = await convex.query(api.users.getUserById, {
+    id: (await params).userId as Id<"users">,
   });
 
-  const user = await clerkClient.users.getUser((await params).userId);
+  if (!user) return;
 
-  const profileImage = user?.imageUrl || "/dummy-profile-image.svg";
+  const profileImage = user.imageUrl || "/dummy-profile-image.svg";
 
   return (
     <div className="h-full">
@@ -71,7 +73,7 @@ const UserIdPage = async ({
             {user?.fullName || "Anonymous User"}
           </h1>
           <p className="text-sm md:text-base text-gray-600">
-            {user?.primaryEmailAddress?.emailAddress || "user@example.com"}
+            {user.emailAddress || "user@example.com"}
           </p>
         </div>
       </div>

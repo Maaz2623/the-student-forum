@@ -59,15 +59,42 @@ export async function POST(req: Request) {
   console.log("Webhook payload:", body);
 
   if (evt.type === "user.created") {
-    const { id, image_url, created_at, first_name, email_addresses, last_name, phone_numbers } =
-      evt.data;
+    const {
+      id,
+      image_url,
+      created_at,
+      first_name,
+      email_addresses,
+      last_name,
+      phone_numbers,
+    } = evt.data;
     await convex.mutation(api.users.createUser, {
       userId: id,
       imageUrl: image_url,
       createdAt: created_at,
       fullName: `${first_name} ${last_name}`,
       phoneNumber: phone_numbers[0]?.phone_number,
-      emailAddress: email_addresses[0].email_address
+      emailAddress: email_addresses[0].email_address,
+    });
+  }
+
+  if (evt.type === "user.updated") {
+    const {
+      id,
+      image_url,
+      created_at,
+      first_name,
+      email_addresses,
+      last_name,
+      phone_numbers,
+    } = evt.data;
+    await convex.mutation(api.users.updateUser, {
+      userId: id,
+      imageUrl: image_url,
+      createdAt: created_at,
+      fullName: `${first_name} ${last_name}`,
+      phoneNumber: phone_numbers[0]?.phone_number,
+      emailAddress: email_addresses[0].email_address,
     });
   }
 

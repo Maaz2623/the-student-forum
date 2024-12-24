@@ -2,19 +2,27 @@ import React from "react";
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
 import { Separator } from "@/components/ui/separator";
-import { clerkClient } from "@clerk/nextjs/server";
 import FullscreenLoader from "@/components/fullscreen-loader";
+import { convex } from "@/lib/utils";
+import { api } from "../../../../convex/_generated/api";
+import { currentUser } from "@clerk/nextjs/server";
 
 const MembersPage = async () => {
-  const { data } = await (await clerkClient()).users.getUserList();
+  const user = await currentUser();
+
+  if (!user) return;
+
+  const data = await convex.query(api.users.getAllUsers);
+
+  if (!data) return;
 
   const formattedUserList = data.map((user) => ({
     profileImage: user.imageUrl || "",
     user: {
-      email: user.primaryEmailAddress?.emailAddress || "",
-      fullName: user.fullName || "",
+      email: user.emailAddress,
+      fullName: user.fullName,
     },
-    id: user.id,
+    id: user._id,
   }));
 
   return (
