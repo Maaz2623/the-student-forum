@@ -29,15 +29,30 @@ import { useClerk } from "@clerk/nextjs";
 import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { RoleType } from "@/constants";
+import { atom, useAtom } from "jotai";
+import { Doc } from "../../../convex/_generated/dataModel";
+
+const currentUserAtom = atom<Doc<"users"> | null>(null);
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
   const router = useRouter();
   const { signOut, user } = useClerk();
 
-  const currentUser = useQuery(api.users.getCurrentUser, {
+  const data = useQuery(api.users.getCurrentUser, {
     userId: user?.id as string,
   });
+
+  // Use Jotai atom to store and consume the currentUser state
+  const [, setCurrentUser] = useAtom(currentUserAtom);
+  const [currentUser] = useAtom(currentUserAtom);
+
+  // Update currentUser atom when data is fetched
+  React.useEffect(() => {
+    if (data) {
+      setCurrentUser(data);
+    }
+  }, [data, setCurrentUser]);
 
   const generalItems = React.useMemo(() => sidebarGeneralItems, []);
   const profileItems = React.useMemo(() => sidebarProfileItems, []);
@@ -91,7 +106,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         {renderSidebarGroup("General", generalItems)}
         {renderSidebarGroup("Profile", profileItems)}
-        {currentUser?.userRole === RoleType.ADMIN &&
+        {currentUser?.role === RoleType.ADMIN &&
           renderSidebarGroup("Content Management", backendItems)}
       </SidebarContent>
       <SidebarFooter className="">
