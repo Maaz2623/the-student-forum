@@ -23,32 +23,21 @@ import {
   sidebarGeneralItems,
   sidebarProfileItems,
 } from "@/constants/sidebar-items";
-import { useEffect } from "react";
 import { Button } from "../ui/button";
 import { LogOutIcon } from "lucide-react";
 import { useClerk } from "@clerk/nextjs";
-import { useMutation, useQuery } from "convex/react";
+import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { RoleType } from "@/constants";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
   const router = useRouter();
-  const { signOut, user, loaded } = useClerk();
-
-  const createUser = useMutation(api.users.createUser);
+  const { signOut, user } = useClerk();
 
   const currentUser = useQuery(api.users.getCurrentUser, {
     userId: user?.id as string,
   });
-
-  useEffect(() => {
-    if (loaded && user && !currentUser) {
-      createUser({
-        userId: user.id as string,
-      });
-    }
-  }, [createUser, user?.id, loaded, user, currentUser]);
 
   const generalItems = React.useMemo(() => sidebarGeneralItems, []);
   const profileItems = React.useMemo(() => sidebarProfileItems, []);

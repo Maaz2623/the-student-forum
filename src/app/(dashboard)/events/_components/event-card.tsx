@@ -49,7 +49,10 @@ const EventCard = (event: Doc<"events">) => {
 
   return (
     <>
-      <div className="w-[300px]  hover:shadow-2xl transition-all duration-200 cursor-pointer h-[350px] bg-gradient-to-b from-green-100 to-white rounded-lg shadow-lg overflow-hidden">
+      <div
+        onClick={() => router.push(`/events/${event._id}`)}
+        className="w-[300px]  hover:shadow-2xl transition-all duration-200 cursor-pointer h-[350px] bg-gradient-to-b from-green-100 to-white rounded-lg shadow-lg overflow-hidden"
+      >
         <div className="aspect-video bg-gray-300">
           {/* Placeholder for an image */}
         </div>
@@ -66,14 +69,6 @@ const EventCard = (event: Doc<"events">) => {
             </p>
           </div>
           <div className="lg:mt-4 md:mt-6 mt-8 flex gap-x-2">
-            <Button
-              onClick={() => router.push(`/events/${event._id}`)}
-              size="sm"
-              className="h-9 bg-gradient-to-br from-green-700 hover:text-white hover:bg-green-600 to-green-500 text-white"
-              variant={`outline`}
-            >
-              <p className="text-xs">Join Now</p>
-            </Button>
             <div className="relative">
               <Button
                 onClick={handleLike}

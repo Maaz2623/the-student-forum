@@ -60,11 +60,11 @@ const TicketPaymentDialog = ({
                 : "Error"}
           </DialogTitle>
           <DialogDescription className="w-full text-center">
-            <div
+            <span
               className={`${badgeVariants({ variant: `${ticket.burnt ? "destructive" : "default"}` })} rounded-md h-8 text-lg`}
             >
               {ticket.burnt ? "Redeemed" : "Active"}
-            </div>
+            </span>
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col items-center">
