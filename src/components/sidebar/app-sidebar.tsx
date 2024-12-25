@@ -90,7 +90,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         {renderSidebarGroup("General", generalItems)}
-        {renderSidebarGroup("Profile", profileItems)}
+        {renderSidebarGroup("Account & Activities", profileItems)}
         {data?.role === RoleType.ADMIN &&
           renderSidebarGroup("Content Management", backendItems)}
       </SidebarContent>

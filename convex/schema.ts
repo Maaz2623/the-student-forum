@@ -2,6 +2,11 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 export default defineSchema({
+  teams: defineTable({
+    teamName: v.string(),
+    teamMembers: v.array(v.id("users")),
+    teamSize: v.number(),
+  }),
   users: defineTable({
     userId: v.string(),
     role: v.string(),

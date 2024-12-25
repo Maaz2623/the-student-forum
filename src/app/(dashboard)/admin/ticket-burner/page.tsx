@@ -38,9 +38,6 @@ const QRScanner = () => {
             const scannedCode = result.getText();
 
             // Pause video playback
-            if (videoRef.current) {
-              videoRef.current.pause();
-            }
 
             const burnt = await burn({
               uniqueCode: scannedCode,
@@ -49,33 +46,31 @@ const QRScanner = () => {
             if (burnt) {
               toast.success("Ticket Valid");
               setData(scannedCode);
-              navigator.vibrate(500);
+              navigator.vibrate(200);
+              setTimeout(() => {
+                setData("");
+                setIsProcessing(false); // Re-enable scanning
+              }, 3000);
             } else {
               setError(true);
               toast.error("Invalid Ticket");
+              navigator.vibrate(200);
+              setTimeout(() => {
+                setData("");
+                setError(false);
+                setIsProcessing(false);
+              });
             }
 
             // Resume video after 3 seconds
-            setTimeout(() => {
-              if (videoRef.current) {
-                videoRef.current.play();
-              }
-              setData("");
-              setError(false);
-              setIsProcessing(false); // Re-enable scanning
-            }, 3000);
           }
         }
       );
     }
-
-    return () => {
-      codeReader.reset();
-    };
   }, [burn, isProcessing]);
 
   return (
-    <div className="absolute inset-0 overflow-hidden rounded-lg bg-black flex flex-col justify-center items-center">
+    <div className="absolute inset-0 overflow-hidden bg-black flex flex-col justify-center items-center">
       <div className="relative w-full h-full flex justify-center items-center">
         <video
           ref={videoRef}
@@ -94,11 +89,6 @@ const QRScanner = () => {
           />
         </div>
       </div>
-      {data && (
-        <p className="absolute bottom-4 text-lg font-semibold text-gray-200 bg-gray-800 bg-opacity-50 p-2 rounded-md">
-          Scanned Data: <span className="text-green-400">{data}</span>
-        </p>
-      )}
     </div>
   );
 };

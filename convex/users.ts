@@ -22,20 +22,18 @@ export const createUser = mutation({
       SUPER_ADMIN = "SUPER_ADMIN",
     }
 
-    if (!user) {
-      return await ctx.db.insert("users", {
-        userId: args.userId,
-        role: RoleType.MEMBER,
-        imageUrl: args.imageUrl,
-        banned: false,
-        createdAt: Date.now(),
-        emailAddress: args.emailAddress,
-        fullName: args.fullName,
-        phoneNumber: args.phoneNumber,
-      });
-    }
+    if (user) return;
 
-    return user;
+    return await ctx.db.insert("users", {
+      userId: args.userId,
+      role: RoleType.MEMBER,
+      imageUrl: args.imageUrl,
+      banned: false,
+      createdAt: Date.now(),
+      emailAddress: args.emailAddress,
+      fullName: args.fullName,
+      phoneNumber: args.phoneNumber,
+    });
   },
 });
 

@@ -6,6 +6,7 @@ import {
   TicketXIcon,
   UserIcon,
   Users,
+  UsersIcon,
 } from "lucide-react";
 
 type SidebarItemsProps = {
@@ -33,13 +34,19 @@ export const sidebarGeneralItems: SidebarItemsProps[] = [
 
 export const sidebarProfileItems: SidebarItemsProps[] = [
   {
-    label: "My Profile",
+    label: "Profile",
     link: "/my-profile",
     icon: UserIcon,
     tag: "profile",
   },
   {
-    label: "My Tickets",
+    label: "Teams",
+    link: "/my-teams",
+    icon: UsersIcon,
+    tag: "teams",
+  },
+  {
+    label: "Tickets",
     link: "/my-tickets",
     icon: TicketIcon,
     tag: "tickets",
